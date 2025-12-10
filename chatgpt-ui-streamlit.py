@@ -5,7 +5,7 @@ import google.generativeai as genai
 print("Gemini SDK Version:", genai.__version__)
 
 # Configure API Key
-API_KEY = "YOUR_API_KEY"
+API_KEY = "AIzaSyBsJ0s1aWtcFyTTv6C5DXypaTk5gEthtgE"
 genai.configure(api_key=API_KEY)
 
 st.title("Gemini AI Chat App")
@@ -37,3 +37,4 @@ if user_input := st.chat_input("Ask Gemini..."):
         st.markdown(reply)
 
     st.session_state["history"].append(("assistant", reply))
+
