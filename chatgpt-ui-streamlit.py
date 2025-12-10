@@ -4,38 +4,34 @@ import google.generativeai as genai
 # -----------------------------
 # 🔑 Gemini API Key
 # -----------------------------
-API_KEY = "AIzaSyBsJ0s1aWtcFyTTv6C5DXypaTk5gEthtgE"   # Replace with your real key
+API_KEY = "AIzaSyBsJ0s1aWtcFyTTv6C5DXypaTk5gEthtgE"   # Replace with real key
 genai.configure(api_key=API_KEY)
 
-st.title("🤖 Gemini AI Chatbot (Auto-Model Fix)")
+st.title("🤖 Gemini AI Chatbot")
 
 # -----------------------------
-# 🔍 Detect Available Models
+# 🔍 Auto-detect working model
 # -----------------------------
-st.write("🔄 Fetching supported models...")
-
 try:
     models = genai.list_models()
 
-    supported_models = []
-    for m in models:
-        if hasattr(m, "supported_generation_methods") and \
-           "generateContent" in m.supported_generation_methods:
-            supported_models.append(m.name)
+    supported_models = [
+        m.name for m in models
+        if hasattr(m, "supported_generation_methods")
+        and "generateContent" in m.supported_generation_methods
+    ]
 
     if not supported_models:
-        st.error("❌ No valid models available for your API key.")
+        st.error("❌ No supported models available for your API key.")
         st.stop()
 
-except Exception as e:
-    st.error(f"❌ Failed to fetch models: {e}")
-    st.stop()
+    # Automatically pick first working model
+    model_name = supported_models[0]
+    model = genai.GenerativeModel(model_name)
 
-# -----------------------------
-# 🎯 Model Selection
-# -----------------------------
-model_name = st.selectbox("Select a Gemini Model:", supported_models)
-model = genai.GenerativeModel(model_name)
+except Exception as e:
+    st.error(f"❌ Failed to load models: {e}")
+    st.stop()
 
 # -----------------------------
 # 💬 Chat History
