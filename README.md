@@ -51,3 +51,5 @@ Gemini AI Chatbot/
 
 ✅ Conclusion
 This project demonstrates an effective integration of Google Gemini AI with Streamlit, enabling the creation of a powerful, interactive, and user-friendly chatbot application.
+
+Live URL:https://geminiaichatbot-1.streamlit.app/
